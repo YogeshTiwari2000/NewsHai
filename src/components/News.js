@@ -13,13 +13,14 @@ const News = (props) => {
   const updateNews = async () => {
 
     setPage(page + 1)
-
-    let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=4000751552e1466bab4776dc366d6cd5&page=${page}&pageSize={props.pageSize}`;
+    let url = `https://personalize.hindustantimes.com/trending-stories-section?propertyId=ht&platformId=web&sectionName=photos&subSectionName=photos@entertainment&numStories=50`;
+    // let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=4000751552e1466bab4776dc366d6cd5&page=${page}&pageSize={props.pageSize}`;
     //  this.setState({loading:true});
     setLoading(true)
     let data = await fetch(url);
     let parsed = await data.json();
-    setArticles(parsed.articles)//
+    setArticles(parsed.items)
+    // setArticles(parsed.articles)//
     setTotalResults(parsed.totalResults)//
     setLoading(false)
 
@@ -30,7 +31,8 @@ const News = (props) => {
 
     // updateNews()
 
-    let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=4000751552e1466bab4776dc366d6cd5&page=${page + 1}&pageSize=${props.pageSize}`;
+    // let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=4000751552e1466bab4776dc366d6cd5&page=${page + 1}&pageSize=${props.pageSize}`;
+    let url = `https://personalize.hindustantimes.com/trending-stories-section?propertyId=ht&platformId=web&sectionName=photos&subSectionName=photos@entertainment&numStories=50`
 
     setPage(page + 1)
     let data = await fetch(url);
@@ -53,32 +55,32 @@ const News = (props) => {
         {/* {this.state.loading&&<Spinner/>} */}
         {/* itrating over article object */}
 
-        <InfiniteScroll
+        {/* <InfiniteScroll
           // dataLength={articles.length}
           dataLength={articles ? articles.length : 0}
           next={fetchMoreData}
           // hasMore={articles.length !== totalResults}
           hasMore={articles ? articles.length !== totalResults : false}
           loader={<h4>Loading...</h4>}
-        >
+        > */}
 
-          <div className="row">
-            {!articles || articles.map((element, index) => {
-              return <div className="col-md-4" key={index}>
-                <Newsitems
-                  title={element.title ? element.title.slice(0, 45) : "See You Soon"}
-                  description={element.description ? element.description.slice(0, 50) : "See You Soon"}
-                  imgUrl={element.urlToImage || "https://imgs.search.brave.com/-gLiKXyL_HbVPkwfYaw82fExNDnFb5Z2_KwCkNy4HhI/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudW5zcGxhc2gu/Y29tL3Bob3RvLTE1/NTc5OTIyNjAtZWM1/OGUzOGQzNjNjP3E9/ODAmdz0xMDAwJmF1/dG89Zm9ybWF0JmZp/dD1jcm9wJml4bGli/PXJiLTQuMC4zJml4/aWQ9TTN3eE1qQTNm/REI4TUh4elpXRnlZ/Mmg4TVRsOGZHNWxk/M044Wlc1OE1IeDhN/SHg4ZkRBPQ.jpeg"}
-                  newsUrl={element.url || "#"}
-                  date={element.publishedAt || "Default Date"}
-                  source={element.source.name || "See You Soon"}
-                />
-                {/* <Newsitems title={element.title ? element.title.slice(0, 45) : ""} description={element.description ? element.description.slice(0, 50) : ""} imgUrl={element.urlToImage} newsUrl={element.url} date={element.publishedAt} source={element.source.name} /> */}
-              </div>
-            })}
-            {/* col-md-3 means in medium devices take 3 columes as in bootstrap there are 12 columes grid */}
-          </div>
-        </InfiniteScroll>
+        <div className="row">
+          {!articles || articles.map((element, index) => {
+            return <div className="col-md-4" key={index}>
+              <Newsitems
+                title={element.headline ? element.headline.slice(0, 45) : "See You Soon"}
+                description={element.headline ? element.headline.slice(0, 50) : "See You Soon"}
+                imgUrl={element.imageObject.original || "https://imgs.search.brave.com/-gLiKXyL_HbVPkwfYaw82fExNDnFb5Z2_KwCkNy4HhI/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudW5zcGxhc2gu/Y29tL3Bob3RvLTE1/NTc5OTIyNjAtZWM1/OGUzOGQzNjNjP3E9/ODAmdz0xMDAwJmF1/dG89Zm9ybWF0JmZp/dD1jcm9wJml4bGli/PXJiLTQuMC4zJml4/aWQ9TTN3eE1qQTNm/REI4TUh4elpXRnlZ/Mmg4TVRsOGZHNWxk/M044Wlc1OE1IeDhN/SHg4ZkRBPQ.jpeg"}
+                newsUrl={element.storyURL || "#"}
+                date={element.date || "Default Date"}
+                source={element.topic[0] || "See You Soon"}
+              />
+              {/* <Newsitems title={element.title ? element.title.slice(0, 45) : ""} description={element.description ? element.description.slice(0, 50) : ""} imgUrl={element.urlToImage} newsUrl={element.url} date={element.publishedAt} source={element.source.name} /> */}
+            </div>
+          })}
+          {/* col-md-3 means in medium devices take 3 columes as in bootstrap there are 12 columes grid */}
+        </div>
+        {/* </InfiniteScroll> */}
       </div>
 
     </>
